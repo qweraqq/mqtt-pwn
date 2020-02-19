@@ -17,6 +17,7 @@ class MqttClient(object):
         """The class initializer"""
 
         self._mqtt_client = mqtt.Client(client_id)
+        self.client_id = client_id
         self.username = username
         self.password = password
         self.host = host

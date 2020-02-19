@@ -12,17 +12,20 @@ class ActiveScanner(object):
     def __init__(self, client_id=None, host=DEFAULT_BROKER_HOST, port=DEFAULT_BROKER_PORT, timeout=60, topics=None,
                  listen_timeout=60, scan_instance=None, cli=None):
         """Active Scanner object initiation"""
-
-        self._mqtt_client = mqtt.Client(client_id)
+        
+        
         self.cli = cli
 
         if cli:
+            self.client_id = cli.mqtt_client.client_id
             self.host = cli.mqtt_client.host
             self.port = cli.mqtt_client.port
         else:
+            self.client_id = client_id
             self.host = host
             self.port = port
 
+        self._mqtt_client = mqtt.Client(self.client_id)
         self.timeout = timeout
         self.topics = topics
         self.listen_timeout = int(listen_timeout)

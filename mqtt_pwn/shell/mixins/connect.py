@@ -24,6 +24,7 @@ class ConnectMixin(BaseMixin):
 
     connection_parser = connect_parser.add_subparsers(help='Connection type command', dest='connect_type')
     userpass_parser = connection_parser.add_parser('USERPASS')
+    userpass_parser.add_argument('-i', '--id', help='mqtt client id to authenticate with', default=DEFAULT_BROKER_USERNAME)
     userpass_parser.add_argument('-u', '--username', help='username to authenticate with', default=DEFAULT_BROKER_USERNAME)
     userpass_parser.add_argument('-w', '--password', help='password to authenticate with', default=DEFAULT_BROKER_PASSWORD)
     clientcert_parser = connection_parser.add_parser('CLIENTCERT')
@@ -61,6 +62,7 @@ class ConnectMixin(BaseMixin):
 
             if args.connect_type == 'USERPASS':
                 self.mqtt_client = MqttClient.from_user_password(
+                    client_id=args.id,
                     host=args.host,
                     port=args.port,
                     timeout=args.timeout,
